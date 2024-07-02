@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div th:each="person : ${people}">
+        <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getName() + ', y.o - ' + person.getYearOfBirth()}">user</a>
+    </div>
+
+    <br/>
+
+    <form th:method="GET" th:action="@{/people/new}">
+        <button>Add person</button>
+    </form>
+
+</body>
+</html>
