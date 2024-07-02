@@ -12,6 +12,20 @@
 
     <br/>
 
+    <b>Books:</b>
+
+    <br/>
+
+    <span th:if="${takenBooks.isEmpty()}">Person hasn't picked up a single book yet</span>
+
+    <span th:if="${!takenBooks.isEmpty()}">
+        <div th:each="book : ${takenBooks}">
+            <span th:text="${book.getName() + ', ' + book.getAuthor() + ', year of publication - ' + book.getYear()}">book</span>
+        </div>
+    </span>
+
+    <br/>
+
     <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
         <button>Update</button>
     </form>

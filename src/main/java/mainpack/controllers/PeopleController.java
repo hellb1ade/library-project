@@ -1,5 +1,6 @@
 package mainpack.controllers;
 
+import mainpack.dao.BookDao;
 import mainpack.dao.PersonDao;
 import mainpack.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class PeopleController {
 
     PersonDao personDao;
+    BookDao bookDao;
 
     @Autowired
-    public PeopleController(PersonDao personDao) {
+    public PeopleController(PersonDao personDao, BookDao bookDao) {
         this.personDao = personDao;
+        this.bookDao = bookDao;
     }
 
     @GetMapping()
@@ -35,6 +38,7 @@ public class PeopleController {
     @GetMapping("/{id}")
     public String showPerson(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", personDao.getPerson(id));
+        model.addAttribute("takenBooks", bookDao.getTakenBooks(id));
         return "people/showPerson";
     }
 

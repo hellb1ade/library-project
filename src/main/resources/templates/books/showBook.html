@@ -12,11 +12,32 @@
 
   <br/>
 
+    <span th:if="${owner == null}">
+        This book is free. Choose who will take it:
+        <form th:method="PATCH" th:action="@{/books/{id}/add-owner(id=${book.getId()})}">
+            <label for="person">Choose person: </label>
+            <select th:object="${person}" th:field="*{id}" id="person">
+                <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getName()}"></option>
+            </select>
+
+            <input type="submit" value="Choose owner">
+        </form>
+    </span>
+
+    <span th:if="${owner != null}">
+        <span>Book owner: </span>
+        <span th:text="${owner.getName()}">owner</span>
+
+        <form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.getId()})}">
+            <input type="submit" value="Release the book">
+        </form>
+    </span>
+
+  <br/>
+
   <form th:method="GET" th:action="@{/books/{id}/edit(id=${book.getId()})}">
       <button>Update</button>
   </form>
-
-  <br/>
 
   <form th:method="DELETE" th:action="@{/books/{id}/delete(id=${book.getId()})}">
       <button>Delete</button>

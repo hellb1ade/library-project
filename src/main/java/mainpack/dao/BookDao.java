@@ -39,4 +39,20 @@ public class BookDao {
     public void deleteBook(Book book) {
         template.update("delete from Book where book_id = ?", book.getId());
     }
+
+    public List<Book> getTakenBooks(int id) {
+        return template.query("select * from Book where person_id = ?", new Object[]{id}, new BookMapper());
+    }
+
+    public Person getOwner(int id) {
+        return template.query("select * from person where person_id = (select person_id from Book where book_id = ?)", new Object[]{id}, new PersonMapper()).stream().findAny().orElse(null);
+    }
+
+    public void setOwner(Person person, int id) {
+        template.update("update Book set person_id = ? where book_id = ?", person.getId(), id);
+    }
+
+    public void releaseBook(int id) {
+        template.update("update Book set person_id = null where book_id = ?", id);
+    }
 }
