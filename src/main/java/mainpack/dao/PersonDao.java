@@ -10,6 +10,7 @@ import java.util.List;
 
 @Component
 public class PersonDao {
+
     private final JdbcTemplate template;
 
     @Autowired
@@ -27,5 +28,13 @@ public class PersonDao {
 
     public void savePerson(Person person) {
         template.update("insert into Person (person_name, year_of_birth) values (?, ?)", person.getName(), person.getYearOfBirth());
+    }
+
+    public void updatePerson(Person person) {
+        template.update("update Person set person_name = ?, year_of_birth = ? where person_id = ?", person.getName(), person.getYearOfBirth(), person.getId());
+    }
+
+    public void deletePerson(int id) {
+        template.update("delete from Person where person_id = ?", id);
     }
 }

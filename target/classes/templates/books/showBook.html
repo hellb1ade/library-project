@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+  <div>
+    <a th:text="${book.getName() + ', ' + book.getAuthor() + ', year of publication - ' + book.getYear()}">person</a>
+  </div>
+
+  <br/>
+
+  <form th:method="GET" th:action="@{/books/{id}/edit(id=${book.getId()})}">
+      <button>Update</button>
+  </form>
+
+  <br/>
+
+  <form th:method="DELETE" th:action="@{/books/{id}/delete(id=${book.getId()})}">
+      <button>Delete</button>
+  </form>
+
+</body>
+</html>

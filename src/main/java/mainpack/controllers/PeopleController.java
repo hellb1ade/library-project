@@ -38,6 +38,24 @@ public class PeopleController {
         return "people/showPerson";
     }
 
+    @GetMapping("/{id}/edit")
+    public String editPerson(@PathVariable("id") int id, Model model) {
+        model.addAttribute("person", personDao.getPerson(id));
+        return "people/editPerson";
+    }
+
+    @PatchMapping("/{id}/edit")
+    public String updatePerson(@ModelAttribute("person") Person person) {
+        personDao.updatePerson(person);
+        return "redirect:/people";
+    }
+
+    @DeleteMapping("/{id}/delete")
+    public String deletePerson(@PathVariable("id") int id) {
+        personDao.deletePerson(id);
+        return "redirect:/people";
+    }
+
     @GetMapping("/new")
     public String addPerson() {
         return "people/newPerson";

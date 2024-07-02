@@ -10,5 +10,17 @@
         <a th:text="${person.getName() + ', y.o - ' + person.getYearOfBirth()}">person</a>
     </div>
 
+    <br/>
+
+    <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+        <button>Update</button>
+    </form>
+
+    <br/>
+
+    <form th:method="DELETE" th:action="@{/people/{id}/delete(id=${person.getId()})}">
+        <button>Delete</button>
+    </form>
+
 </body>
 </html>
