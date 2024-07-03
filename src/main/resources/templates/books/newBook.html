@@ -6,15 +6,18 @@
 </head>
 <body>
 
-  <form th:method="POST" th:action="@{/books/new}">
+  <form th:method="POST" th:action="@{/books/new}" th:object="${book}">
     <label for="name">Enter name: </label>
-    <input type="text" id="name" name="name"/>
+    <input type="text" id="name" th:field="*{name}"/>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</div>
     <br/>
     <label for="author">Enter author: </label>
-    <input type="text" id="author" name="author"/>
+    <input type="text" id="author" th:field="*{author}"/>
+    <div th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Error</div>
     <br/>
     <label for="year">Enter year of publication: </label>
-    <input type="text" id="year" name="year"/>
+    <input type="text" id="year" th:field="*{year}"/>
+    <div th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Error</div>
     <br/>
     <input type="submit" value="Create!"/>
   </form>

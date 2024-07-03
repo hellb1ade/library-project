@@ -1,5 +1,6 @@
 package mainpack.controllers;
 
+import jakarta.validation.Valid;
 import mainpack.dao.BookDao;
 import mainpack.dao.PersonDao;
 import mainpack.models.Book;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -52,35 +54,37 @@ public class BookController {
     }
 
     @GetMapping("/new")
-    public String addBook() {
+    public String addBook(@ModelAttribute("book") Book book) {
         return "books/newBook";
     }
 
     @PostMapping("/new")
-    public String createBook(@ModelAttribute("book") Book book) {
-        bookDao.addBook(book);
+    public String createBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "books/newBook";
 
+        bookDao.addBook(book);
         return "redirect:/books";
     }
 
     @GetMapping("/{id}/edit")
     public String editBook(@PathVariable("id") int id, Model model) {
         model.addAttribute(bookDao.getBook(id));
-
         return "books/editBook";
     }
 
     @PatchMapping("/{id}/edit")
-    public String updateBook(@ModelAttribute("book") Book book) {
-        bookDao.updateBook(book);
+    public String updateBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "books/editBook";
 
+        bookDao.updateBook(book);
         return "redirect:/books";
     }
 
     @DeleteMapping("/{id}/delete")
     public String deleteBook(@ModelAttribute("book") Book book) {
         bookDao.deleteBook(book);
-
         return "redirect:/books";
     }
 

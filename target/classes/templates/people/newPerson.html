@@ -6,12 +6,14 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/people}">
+<form th:method="POST" th:action="@{/people}" th:object="${person}">
     <label for="name">Enter name: </label>
-    <input type="text" id="name" name="name"/>
+    <input th:field="*{name}" type="text" id="name"/>
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</div>
     <br/>
     <label for="yearOfBirth">Enter age: </label>
-    <input type="text" id="yearOfBirth" name="yearOfBirth"/>
+    <input th:field="*{yearOfBirth}" type="text" id="yearOfBirth"/>
+    <div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">Error</div>
     <br/>
     <input type="submit" value="Create!"/>
 </form>

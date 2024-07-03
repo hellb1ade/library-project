@@ -1,5 +1,6 @@
 package mainpack.controllers;
 
+import jakarta.validation.Valid;
 import mainpack.dao.BookDao;
 import mainpack.dao.PersonDao;
 import mainpack.models.Person;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -30,7 +32,10 @@ public class PeopleController {
     }
 
     @PostMapping()
-    public String createNewPerson(@ModelAttribute("person") Person person) {
+    public String createNewPerson(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "people/newPerson";
+
         personDao.savePerson(person);
         return "redirect:/people";
     }
@@ -49,7 +54,10 @@ public class PeopleController {
     }
 
     @PatchMapping("/{id}/edit")
-    public String updatePerson(@ModelAttribute("person") Person person) {
+    public String updatePerson(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "people/editPerson";
+
         personDao.updatePerson(person);
         return "redirect:/people";
     }
@@ -61,7 +69,7 @@ public class PeopleController {
     }
 
     @GetMapping("/new")
-    public String addPerson() {
+    public String addPerson(@ModelAttribute("person") Person person) {
         return "people/newPerson";
     }
 }

@@ -6,12 +6,14 @@
 </head>
 <body>
 
-    <form th:method="PATCH" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+    <form th:method="PATCH" th:action="@{/people/{id}/edit(id=${person.getId()})}" th:object="${person}">
         <label for="name">Enter new name: </label>
-        <input type="text" id="name" name="name"/>
+        <input th:field="*{name}" type="text" id="name"/>
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</div>
         <br/>
         <label for="yearOfBirth">Enter new age: </label>
-        <input type="text" id="yearOfBirth" name="yearOfBirth"/>
+        <input th:field="*{yearOfBirth}" type="text" id="yearOfBirth"/>
+        <div th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">Error</div>
         <br/>
         <input type="submit" value="Update!"/>
     </form>
