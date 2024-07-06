@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <form th:method="GET" th:action="@{/books/search/{request}}" th:object="${request}">
+      <label for="request">Search: </label>
+      <input type="text" id="request" name="request"/>
+      <input type="submit" value="Search"/>
+  </form>
+
+  <span th:if="${request != null}">
+      <span>
+          <span th:each="book : ${result}">
+              <a th:href="@{/books/{id}(id=${book.getId()})}" th:text="${book.getName() + ', ' + book.getAuthor() + ', year of publication - ' + book.getYear()}">book</a>
+          </span>
+      </span>
+  </span>
+
+  <span th:if="${result.isEmpty()}">Books not found!</span>
+
+</body>
+</html>
