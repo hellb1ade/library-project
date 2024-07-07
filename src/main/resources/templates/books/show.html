@@ -14,7 +14,26 @@
         <button type="submit">New book</button>
     </form>
 
+    <span th:if="${page>1}">
+        <form th:method="GET" th:action="@{/books}">
+        <input type="hidden" th:name="books_per_page" th:value="3">
+        <button type="submit" th:name="page" th:value=${page-1}>Previous page</button>
+    </form>
+    </span>
+
+    <form th:action="@{/books}">
+        <input type="hidden" th:name="books_per_page" th:value="3">
+        <button type="submit" th:name="page" th:value=${page+1}>Next page</button>
+    </form>
+
     <br/>
+
+    <form th:action="@{/books}">
+        <input type="hidden" th:name="books_per_page" th:value="3">
+        <input type="hidden" th:name="page" th:value="${page}">
+        <input type="hidden" th:name="sort_by_year" th:value="true">
+        <button type="submit">Sort by year</button>
+    </form>
 
     <form th:action="@{/books/search}">
         <button type="submit">Search page</button>

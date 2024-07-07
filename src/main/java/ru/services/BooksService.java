@@ -76,4 +76,8 @@ public class BooksService {
     public List<Book> searchBookByTitle(String title) {
         return booksRepository.findByNameContaining(title);
     }
+
+    public List<Book> findAllSort() {
+        return booksRepository.findAllWithSort();
+    }
 }

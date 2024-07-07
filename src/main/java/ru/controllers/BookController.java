@@ -2,6 +2,7 @@ package ru.controllers;
 
 import jakarta.validation.Valid;
 import ru.models.Book;
+import ru.models.Page;
 import ru.models.Person;
 import ru.services.BooksService;
 import ru.services.PeopleService;
@@ -17,16 +18,31 @@ public class BookController {
 
     PeopleService peopleService;
     BooksService booksService;
+    Page webPage;
 
     @Autowired
-    public BookController(PeopleService peopleService, BooksService booksService) {
+    public BookController(PeopleService peopleService, BooksService booksService, Page page) {
         this.peopleService = peopleService;
         this.booksService = booksService;
+        this.webPage = page;
     }
 
     @GetMapping()
-    public String show(Model model) {
-        model.addAttribute("books", booksService.findAll());
+    public String show(@RequestParam(value = "page", required = false) Integer page,
+                       @RequestParam(value = "books_per_page", required = false) Integer booksPerPage,
+                       @RequestParam(value = "sort_by_year", required = false) Boolean sortByYear,
+                       Model model) {
+        if (page == null) {
+            page = 1;
+            booksPerPage = 3;
+        }
+
+        webPage.setPage(page);
+        webPage.setBooksPerPage(booksPerPage);
+        webPage.setSortByYear(sortByYear != null);
+
+        model.addAttribute("books", webPage.findBooksOnPage(booksService.findAll()));
+        model.addAttribute("page", page);
         return "books/show";
     }
 
